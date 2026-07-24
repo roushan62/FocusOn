@@ -1,38 +1,76 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { projects } from '@/lib/data'
 
-const filters = ['All', 'Corporate', 'Hospitality'] as const
+const categories = [
+  'All',
+  'Corporate Office',
+  'NBFC',
+  'Industrial',
+  'Educational',
+] as const
 
 export function ProjectsGallery() {
-  const [filter, setFilter] = useState<(typeof filters)[number]>('All')
+  const [category, setCategory] =
+    useState<(typeof categories)[number]>('All')
+  const [city, setCity] = useState<string>('All')
 
-  const visible =
-    filter === 'All' ? projects : projects.filter((p) => p.category === filter)
+  const cities = useMemo(
+    () => ['All', ...Array.from(new Set(projects.map((p) => p.city)))],
+    [],
+  )
+
+  const visible = projects.filter(
+    (p) =>
+      (category === 'All' || p.category === category) &&
+      (city === 'All' || p.city === city),
+  )
 
   return (
     <div>
       <div
         className="flex flex-wrap gap-2"
         role="group"
-        aria-label="Filter projects by category"
+        aria-label="Filter projects by sector"
       >
-        {filters.map((f) => (
+        {categories.map((f) => (
           <button
             key={f}
             type="button"
-            onClick={() => setFilter(f)}
-            aria-pressed={filter === f}
+            onClick={() => setCategory(f)}
+            aria-pressed={category === f}
             className={`rounded-full px-6 py-2.5 font-heading text-sm font-semibold uppercase tracking-wider transition-all duration-300 ${
-              filter === f
+              category === f
                 ? 'bg-primary text-primary-foreground'
                 : 'glass hover:bg-muted'
             }`}
           >
             {f}
+          </button>
+        ))}
+      </div>
+
+      <div
+        className="mt-4 flex flex-wrap gap-2"
+        role="group"
+        aria-label="Filter projects by city"
+      >
+        {cities.map((c) => (
+          <button
+            key={c}
+            type="button"
+            onClick={() => setCity(c)}
+            aria-pressed={city === c}
+            className={`rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+              city === c
+                ? 'bg-secondary text-secondary-foreground'
+                : 'border border-border hover:bg-muted'
+            }`}
+          >
+            {c}
           </button>
         ))}
       </div>
@@ -61,7 +99,7 @@ export function ProjectsGallery() {
                   className={`overflow-hidden ${i % 3 === 0 ? 'aspect-[16/8]' : 'aspect-[4/3]'}`}
                 >
                   <img
-                    src={project.images[0] || "/placeholder.svg"}
+                    src={project.images[0].src || '/placeholder.svg'}
                     alt={`${project.client} interior fit-out in ${project.location}`}
                     loading="lazy"
                     className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
@@ -74,7 +112,8 @@ export function ProjectsGallery() {
                         {project.client}
                       </h2>
                       <p className="mt-0.5 text-xs text-secondary-foreground/70 md:text-sm">
-                        {project.area} · {project.location}
+                        {project.area} · {project.location} ·{' '}
+                        {project.category}
                       </p>
                     </div>
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform duration-300 group-hover:translate-x-1">
@@ -88,6 +127,12 @@ export function ProjectsGallery() {
           ))}
         </AnimatePresence>
       </motion.ul>
+
+      {visible.length === 0 && (
+        <p className="mt-12 text-center text-muted-foreground">
+          No projects match this filter combination yet.
+        </p>
+      )}
     </div>
   )
 }

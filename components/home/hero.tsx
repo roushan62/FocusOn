@@ -6,7 +6,7 @@ import { company, projects } from '@/lib/data'
 import { MagneticButton } from '@/components/magnetic-button'
 
 const slides = projects.slice(0, 5).map((p) => ({
-  image: p.images[0],
+  image: p.images[0].src,
   client: p.client,
   location: p.location,
 }))

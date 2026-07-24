@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { contact } from '@/lib/data'
 import { Reveal, TextReveal } from '@/components/reveal'
+import { ContactForm } from '@/components/contact-form'
 
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    "Let's style and create your next space together. Reach FocusOn Interiors in Gurugram by phone, email, or visit our office.",
+    "Let's style and create your next space together. Reach FocusOn Interiors in Gurugram by phone, email, WhatsApp, or visit our office.",
 }
 
 export default function ContactPage() {
@@ -90,25 +91,28 @@ export default function ContactPage() {
           </Reveal>
         </div>
 
-        <Reveal delay={0.28}>
-          <div className="mt-12">
-            <h3 className="font-heading text-sm font-bold uppercase text-muted-foreground tracking-[0.25em]">
-              Our Location
-            </h3>
-            <div className="mt-4 overflow-hidden rounded-3xl shadow-lg">
+        {/* Form + Map */}
+        <div className="mt-16 grid gap-6 lg:grid-cols-2">
+          <Reveal delay={0.1}>
+            <ContactForm />
+          </Reveal>
+
+          <Reveal delay={0.2}>
+            <div className="flex h-full flex-col overflow-hidden rounded-3xl shadow-lg">
               <iframe
-                title="FocusOn Interiors Map"
+                title="FocusOn Interiors office location on Google Maps"
                 src={`https://www.google.com/maps?q=${encodeURIComponent(
-                  contact.address
+                  contact.address,
                 )}&output=embed`}
                 width="100%"
-                height="420"
+                height="100%"
                 loading="lazy"
-                className="border-0"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="min-h-[420px] flex-1 border-0"
               />
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
     </div>
   )

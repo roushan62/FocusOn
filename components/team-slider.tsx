@@ -45,7 +45,7 @@ export function TeamSlider({ members }: TeamSliderProps) {
   return (
     <div className="relative mx-auto max-w-6xl overflow-hidden">
       {/* Main Slider */}
-      <div className="relative min-h-[600px] md:min-h-[700px] overflow-hidden rounded-3xl bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="relative min-h-[600px] md:min-h-[700px] overflow-hidden rounded-3xl bg-gradient-to-br from-muted to-background ring-1 ring-border">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={current}
@@ -72,25 +72,13 @@ export function TeamSlider({ members }: TeamSliderProps) {
 
               {/* Info Section - Right Side */}
               <div className="mt-8 w-full md:mt-0 md:w-1/2 md:pl-8">
-                <p className="font-display text-sm font-bold uppercase tracking-[0.25em] text-muted-foreground">
+                <p className="font-heading text-sm font-bold uppercase tracking-[0.25em] text-muted-foreground">
                   {members[current].role}
                 </p>
-                <h2
-                  className="mt-4 font-display text-5xl md:text-6xl font-black uppercase leading-tight"
-                  style={{
-                    color: '#DC2626',
-                    fontFamily: "'Times New Roman', Times, serif",
-                  }}
-                >
+                <h2 className="mt-4 font-heading text-4xl md:text-6xl font-black uppercase leading-tight text-primary">
                   {members[current].name}
                 </h2>
-                <p
-                  className="mt-6 text-2xl md:text-3xl font-semibold"
-                  style={{
-                    color: '#DC2626',
-                    fontFamily: "'Times New Roman', Times, serif",
-                  }}
-                >
+                <p className="mt-6 font-heading text-xl md:text-2xl font-semibold text-primary">
                   {members[current].tagline}
                 </p>
                 <p className="mt-8 max-w-lg leading-relaxed text-muted-foreground text-lg">
@@ -135,11 +123,11 @@ export function TeamSlider({ members }: TeamSliderProps) {
             className={`transition-all duration-300 ${
               index === current
                 ? 'h-3 w-8 rounded-full'
-                : 'h-2.5 w-2.5 rounded-full hover:bg-red-400'
+                : 'h-2.5 w-2.5 rounded-full hover:opacity-70'
             }`}
             style={{
               backgroundColor:
-                index === current ? '#DC2626' : 'rgba(220, 38, 38, 0.3)',
+                index === current ? 'var(--primary)' : 'color-mix(in oklab, var(--primary) 30%, transparent)',
             }}
             aria-label={`Go to slide ${index + 1}`}
           />
