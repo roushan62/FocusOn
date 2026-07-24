@@ -14,7 +14,26 @@ export function Clients() {
           <p className="mt-6 max-w-3xl font-heading text-2xl font-bold leading-snug tracking-tight text-balance md:text-3xl">
             {clientele.description}
           </p>
+          <p className="mt-4 max-w-3xl text-sm font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+            {clientele.sectors}
+          </p>
         </Reveal>
+
+        {/* Client logo grid */}
+        <div className="mt-14 grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+          {clientele.logos.map((logo, i) => (
+            <Reveal key={logo.src} delay={(i % 8) * 0.04}>
+              <div className="flex aspect-square items-center justify-center rounded-2xl bg-card p-4 shadow-sm ring-1 ring-border transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                <img
+                  src={logo.src || '/placeholder.svg'}
+                  alt={logo.alt}
+                  loading="lazy"
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
 
       <div

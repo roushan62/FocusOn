@@ -48,7 +48,7 @@ export function FeaturedProjects() {
             >
               <div className="aspect-[4/3] overflow-hidden">
                 <img
-                  src={project.images[0] || "/placeholder.svg"}
+                  src={project.images[0].src || "/placeholder.svg"}
                   alt={`${project.client} interior fit-out in ${project.location}`}
                   loading="lazy"
                   className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"

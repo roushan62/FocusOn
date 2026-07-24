@@ -1,15 +1,13 @@
 import type { Metadata } from 'next'
-import { process, services } from '@/lib/data'
+import Link from 'next/link'
+import { process, projects, services } from '@/lib/data'
 import { Reveal, TextReveal } from '@/components/reveal'
 import { MagneticButton } from '@/components/magnetic-button'
-import { ServiceBenefits } from '@/components/home/service-benefits'
-import { ServiceFeatures } from '@/components/home/service-features'
-import { ServicePackages } from '@/components/home/service-packages'
 
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Design-build, general contracting, interior fit-outs, remodeling, project management, and construction works — end-to-end turnkey solutions by FocusOn Interiors.',
+    'Design-build & general contracting, interior fit-outs, remodeling & refurbishment, project management, and construction works — end-to-end solutions by FocusOn Interiors.',
 }
 
 export default function ServicesPage() {
@@ -23,7 +21,7 @@ export default function ServicesPage() {
         </Reveal>
         <TextReveal
           as="h1"
-          text="End-to-End Turnkey Solutions"
+          text="Design, Build & Turnkey Solutions"
           className="mt-6 max-w-4xl font-heading text-4xl font-black uppercase leading-[1.05] tracking-tight text-balance md:text-7xl"
         />
 
@@ -58,10 +56,6 @@ export default function ServicesPage() {
         </Reveal>
       </section>
 
-      <ServiceBenefits />
-      <ServiceFeatures />
-      <ServicePackages />
-
       {/* Process */}
       <section className="mt-24 bg-secondary py-24 text-secondary-foreground md:mt-36 md:py-36">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
@@ -95,6 +89,56 @@ export default function ServicesPage() {
               </Reveal>
             ))}
           </ol>
+        </div>
+      </section>
+
+      {/* Portfolio strip — as on the live services page */}
+      <section className="mx-auto max-w-7xl px-4 py-24 md:px-8 md:py-36">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <Reveal>
+            <p className="font-heading text-xs font-bold uppercase tracking-[0.35em] text-primary">
+              Portfolio
+            </p>
+            <h2 className="mt-5 font-heading text-3xl font-black uppercase tracking-tight text-balance md:text-5xl">
+              Recent Work
+            </h2>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <MagneticButton href="/projects" variant="outline">
+              View All Projects
+            </MagneticButton>
+          </Reveal>
+        </div>
+
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {projects.map((project, i) => (
+            <Reveal key={project.slug} delay={(i % 4) * 0.08}>
+              <Link
+                href={`/projects/${project.slug}`}
+                className="group relative block overflow-hidden rounded-3xl"
+              >
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={project.cover || '/placeholder.svg'}
+                    alt={`${project.client} — ${project.area}, ${project.location}`}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  />
+                </div>
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-secondary/90 via-secondary/30 to-transparent p-6 text-secondary-foreground">
+                  <h3 className="font-heading text-sm font-bold leading-snug tracking-tight">
+                    {project.client}
+                  </h3>
+                  <p className="mt-1 text-xs text-secondary-foreground/80">
+                    {project.area} · {project.location}
+                  </p>
+                  <span className="mt-3 text-xs font-semibold text-primary">
+                    View <span aria-hidden="true">→</span>
+                  </span>
+                </div>
+              </Link>
+            </Reveal>
+          ))}
         </div>
       </section>
     </div>

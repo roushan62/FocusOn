@@ -86,14 +86,14 @@ export default async function ProjectCaseStudy({
         <div className="mt-14 flex flex-col gap-6">
           {project.images.map((image, i) => (
             <ImageReveal
-              key={image}
+              key={image.src}
               className={`rounded-3xl ${
                 i % 3 === 0 ? 'aspect-[16/9]' : 'aspect-[16/10] md:w-4/5'
               } ${i % 3 === 2 ? 'md:self-end' : ''}`}
             >
               <img
-                src={image || "/placeholder.svg"}
-                alt={`${project.client} interiors in ${project.location} — view ${i + 1}`}
+                src={image.src || "/placeholder.svg"}
+                alt={`${project.client} interiors in ${image.caption} — view ${i + 1}`}
                 loading={i === 0 ? 'eager' : 'lazy'}
                 className="h-full w-full object-cover"
               />

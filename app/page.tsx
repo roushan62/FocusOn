@@ -7,9 +7,8 @@ import { Industries } from '@/components/home/industries'
 import { ProcessTimeline } from '@/components/home/process-timeline'
 import { Clients } from '@/components/home/clients'
 import { Testimonials } from '@/components/home/testimonials'
-import { AwardsRecognition } from '@/components/home/awards-recognition'
-import { FAQ } from '@/components/home/faq'
-import { NewsletterSignup } from '@/components/home/newsletter-signup'
+import { MediaPreview } from '@/components/home/media-preview'
+import { BlogPreview } from '@/components/home/blog-preview'
 import { Cta } from '@/components/home/cta'
 
 export default function HomePage() {
@@ -24,9 +23,8 @@ export default function HomePage() {
       <ProcessTimeline />
       <Clients />
       <Testimonials />
-      <AwardsRecognition />
-      <FAQ />
-      <NewsletterSignup />
+      <MediaPreview />
+      <BlogPreview />
       <Cta />
     </>
   )
