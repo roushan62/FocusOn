@@ -1,0 +1,4 @@
+:HL["/FocusOn/_next/static/chunks/15b2-_9yjj_r8.css","style"]
+:HL["https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap","style"]
+:HL["https://focusoninteriors.com/wp-content/uploads/2026/05/Sustainable-Office-Interiors-The-Future-of-Workspaces.webp","image"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"blog","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"sustainable-office-interiors-the-future-of-workspaces","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"mIl4j2aWQiJw0NPISsq3z"}
