@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function CareerPage() {
   return (
-    <div className="pt-32 md:pt-40">
+    <div className="pt-24 md:pt-28">
       <section className="mx-auto max-w-7xl px-4 pb-24 md:px-8 md:pb-36">
         <Reveal>
           <p className="font-heading text-xs font-bold uppercase tracking-[0.35em] text-primary">

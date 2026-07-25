@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { media } from '@/lib/data'
 import { Reveal, TextReveal } from '@/components/reveal'
 import { MagneticButton } from '@/components/magnetic-button'
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function MediaPage() {
   return (
-    <div className="pt-32 md:pt-40">
+    <div className="pt-24 md:pt-28">
       <section className="mx-auto max-w-7xl px-4 pb-24 md:px-8 md:pb-36">
         <Reveal>
           <p className="font-heading text-xs font-bold uppercase tracking-[0.35em] text-primary">
@@ -32,11 +33,9 @@ export default function MediaPage() {
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {media.map((item, i) => (
-            <Reveal key={`${item.href}-${i}`} delay={(i % 3) * 0.08}>
-              <a
+            <Reveal key={item.slug} delay={(i % 3) * 0.08}>
+              <Link
                 href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="glass group flex h-full flex-col overflow-hidden rounded-3xl shadow-lg shadow-foreground/5 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
               >
                 {item.image && (
@@ -63,7 +62,7 @@ export default function MediaPage() {
                     Read On <span aria-hidden="true">→</span>
                   </span>
                 </div>
-              </a>
+              </Link>
             </Reveal>
           ))}
         </div>

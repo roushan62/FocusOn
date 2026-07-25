@@ -6,6 +6,8 @@ import { Footer } from '@/components/footer'
 import { QuickContact } from '@/components/quick-contact'
 import './globals.css'
 
+const assetPrefix = process.env.NEXT_PUBLIC_STATIC_EXPORT === '1' ? '/FocusOn' : ''
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://focusoninteriors.com'),
   title: {
@@ -29,7 +31,7 @@ export const metadata: Metadata = {
     title: 'FocusOn Interiors | Spaces Styled, Stories Told',
     description:
       'Design, Build, and Style. We transform interiors into curated experiences. 15M+ sq. ft. delivered across India.',
-    images: [{ url: '/images/logo.png', width: 1024, height: 1024 }],
+    images: [{ url: `${assetPrefix}/images/logo.png`, width: 1024, height: 1024 }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -38,8 +40,8 @@ export const metadata: Metadata = {
       'Design, Build, and Style. We transform interiors into curated experiences.',
   },
   icons: {
-    icon: [{ url: '/images/logo.png' }],
-    apple: '/images/logo.png',
+    icon: [{ url: `${assetPrefix}/images/logo.png` }],
+    apple: `${assetPrefix}/images/logo.png`,
   },
 }
 

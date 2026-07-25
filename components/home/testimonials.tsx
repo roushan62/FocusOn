@@ -9,7 +9,7 @@ export function Testimonials() {
   const [index, setIndex] = useState(0)
 
   return (
-    <section className="bg-muted py-24 md:py-36">
+    <section className="bg-muted py-16 md:py-20">
       <div className="mx-auto max-w-5xl px-4 md:px-8">
         <Reveal>
           <p className="text-center font-heading text-xs font-bold uppercase tracking-[0.35em] text-primary">
