@@ -14,7 +14,7 @@ export function ProfileViewer() {
 
   // Reliable base path detection
   const base = typeof window !== 'undefined' && window.location.pathname.startsWith('/FocusOn') ? '/FocusOn' : ''
-  const pdfUrl = `${base}/Focus on Updated Deck..pdf`
+  const pdfUrl = `${base}/profile.pdf`
 
   const go = useCallback((p: number) => {
     if (p < 1 || p > TOTAL_PAGES) return
