@@ -86,3 +86,22 @@
   background: var(--primary);
   color: var(--primary-foreground);
 }
+
+/* Smooth scroll for anchor links */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Optimize animations for smoothness */
+@media (prefers-reduced-motion: no-preference) {
+  .motion-safe\:animate-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
