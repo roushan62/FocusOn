@@ -18,7 +18,7 @@ export function FeaturedProjects() {
   const x = useTransform(scrollYProgress, [0, 1], ['4%', '-30%'])
 
   return (
-    <section className="overflow-hidden bg-muted py-24 md:py-36">
+    <section className="overflow-hidden bg-muted py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <Reveal>

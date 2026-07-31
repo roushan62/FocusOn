@@ -26,11 +26,9 @@ export function MediaPreview() {
 
       <div className="mt-14 grid gap-6 md:grid-cols-3">
         {featured.map((item, i) => (
-          <Reveal key={`${item.href}-${i}`} delay={i * 0.1}>
-            <a
+          <Reveal key={item.slug} delay={i * 0.1}>
+            <Link
               href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
               className="glass group flex h-full flex-col overflow-hidden rounded-3xl shadow-lg shadow-foreground/5 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
             >
               {item.image && (
@@ -57,7 +55,7 @@ export function MediaPreview() {
                   Read On <span aria-hidden="true">→</span>
                 </span>
               </div>
-            </a>
+            </Link>
           </Reveal>
         ))}
       </div>

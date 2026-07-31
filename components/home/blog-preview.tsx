@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { blogPosts } from '@/lib/data'
 import { Reveal } from '@/components/reveal'
 import { MagneticButton } from '@/components/magnetic-button'
@@ -6,7 +7,7 @@ const featured = blogPosts.slice(0, 3)
 
 export function BlogPreview() {
   return (
-    <section className="bg-muted py-24 md:py-36">
+    <section className="bg-muted py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <Reveal>
@@ -26,11 +27,9 @@ export function BlogPreview() {
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {featured.map((post, i) => (
-            <Reveal key={post.href} delay={i * 0.1}>
-              <a
+            <Reveal key={post.slug} delay={i * 0.1}>
+              <Link
                 href={post.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="group flex h-full flex-col overflow-hidden rounded-3xl bg-card shadow-lg shadow-foreground/5 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
               >
                 <div className="aspect-[16/10] overflow-hidden bg-muted">
@@ -52,7 +51,7 @@ export function BlogPreview() {
                     Read More <span aria-hidden="true">→</span>
                   </span>
                 </div>
-              </a>
+              </Link>
             </Reveal>
           ))}
         </div>

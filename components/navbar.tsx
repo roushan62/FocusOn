@@ -8,6 +8,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { navLinks } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
+const prefix = process.env.NEXT_PUBLIC_STATIC_EXPORT === '1' ? '/FocusOn' : ''
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -50,7 +52,7 @@ export function Navbar() {
         >
           <Link href="/" className="flex items-center gap-2.5">
             <Image
-              src="/images/logo.png"
+              src={`${prefix}/images/logo.png`}
               alt="FocusOn Interiors logo"
               width={40}
               height={40}

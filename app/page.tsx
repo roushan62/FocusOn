@@ -10,6 +10,7 @@ import { Testimonials } from '@/components/home/testimonials'
 import { MediaPreview } from '@/components/home/media-preview'
 import { BlogPreview } from '@/components/home/blog-preview'
 import { Cta } from '@/components/home/cta'
+import { ProfileViewer } from '@/components/home/profile-viewer'
 
 export default function HomePage() {
   return (
@@ -26,6 +27,7 @@ export default function HomePage() {
       <MediaPreview />
       <BlogPreview />
       <Cta />
+      <ProfileViewer />
     </>
   )
 }

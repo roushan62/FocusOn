@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && cp \"public/profile.pdf\" out/ 2>/dev/null; echo 'Build complete'",
     "start": "next start",
     "lint": "eslint ."
   },
@@ -17,6 +17,7 @@
     "lenis": "^1.3.25",
     "lucide-react": "^1.16.0",
     "next": "16.2.6",
+    "nodemailer": "^9.0.3",
     "react": "^19",
     "react-dom": "^19",
     "shadcn": "^4.8.0",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8.5",

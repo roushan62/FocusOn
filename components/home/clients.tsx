@@ -1,11 +1,15 @@
+'use client'
+
 import { clientele } from '@/lib/data'
 import { Reveal } from '@/components/reveal'
 
 export function Clients() {
-  const marqueeNames = [...clientele.names, ...clientele.names]
+  const half = Math.ceil(clientele.names.length / 2)
+  const line1 = clientele.names.slice(0, half)
+  const line2 = clientele.names.slice(half)
 
   return (
-    <section className="overflow-hidden py-24 md:py-36">
+    <section className="overflow-hidden py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <Reveal>
           <p className="font-heading text-xs font-bold uppercase tracking-[0.35em] text-primary">
@@ -36,14 +40,32 @@ export function Clients() {
         </div>
       </div>
 
+      {/* Marquee Line 1 — Right to Left */}
       <div
         className="group mt-14 flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
-        aria-label="Our clients"
+        aria-label="Our clients line 1"
       >
-        <div className="flex w-max animate-[marquee_30s_linear_infinite] items-center gap-16 pr-16 group-hover:[animation-play-state:paused]">
-          {marqueeNames.map((name, i) => (
+        <div className="flex w-max animate-[marqueeRTL_35s_linear_infinite] items-center gap-16 pr-16 group-hover:[animation-play-state:paused]">
+          {[...line1, ...line1].map((name, i) => (
             <span
-              key={`${name}-${i}`}
+              key={`1-${name}-${i}`}
+              className="whitespace-nowrap font-heading text-2xl font-black uppercase tracking-tight text-foreground/25 transition-colors hover:text-primary md:text-4xl"
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Marquee Line 2 — Left to Right */}
+      <div
+        className="group mt-6 flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
+        aria-label="Our clients line 2"
+      >
+        <div className="flex w-max animate-[marqueeLTR_35s_linear_infinite] items-center gap-16 pr-16 group-hover:[animation-play-state:paused]">
+          {[...line2, ...line2].map((name, i) => (
+            <span
+              key={`2-${name}-${i}`}
               className="whitespace-nowrap font-heading text-2xl font-black uppercase tracking-tight text-foreground/25 transition-colors hover:text-primary md:text-4xl"
             >
               {name}
@@ -53,9 +75,13 @@ export function Clients() {
       </div>
 
       <style>{`
-        @keyframes marquee {
+        @keyframes marqueeRTL {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
+        }
+        @keyframes marqueeLTR {
+          from { transform: translateX(-50%); }
+          to { transform: translateX(0); }
         }
       `}</style>
     </section>

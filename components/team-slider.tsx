@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 
 interface TeamMember {
   name: string
@@ -10,43 +10,74 @@ interface TeamMember {
   photo: string
   tagline: string
   description: string
+  photoAspect?: string
 }
 
 interface TeamSliderProps {
   members: TeamMember[]
 }
 
+const prefix = process.env.NEXT_PUBLIC_STATIC_EXPORT === '1' ? '/FocusOn' : ''
+
+function imgPath(src: string) {
+  if (src?.startsWith('/') && !src.startsWith('//')) return prefix + src
+  return src
+}
+
+function TypeWriter({ text, speed = 15 }: { text: string; speed?: number }) {
+  const [displayed, setDisplayed] = useState('')
+  const [done, setDone] = useState(false)
+  const indexRef = useRef(0)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+
+  useEffect(() => {
+    setDisplayed('')
+    setDone(false)
+    indexRef.current = 0
+    const type = () => {
+      if (indexRef.current < text.length) {
+        setDisplayed(text.slice(0, indexRef.current + 1))
+        indexRef.current++
+        timeoutRef.current = setTimeout(type, speed)
+      } else {
+        setDone(true)
+      }
+    }
+    timeoutRef.current = setTimeout(type, 300)
+    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current) }
+  }, [text, speed])
+
+  return (
+    <span>
+      {displayed}
+      {!done && <span className="inline-block w-[2px] h-[1em] bg-primary animate-pulse ml-0.5 align-middle" />}
+    </span>
+  )
+}
+
 export function TeamSlider({ members }: TeamSliderProps) {
   const [current, setCurrent] = useState(0)
   const [direction, setDirection] = useState(0)
+  const [key, setKey] = useState(0)
 
   const slideVariants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 1000 : -1000,
-      opacity: 0,
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
-    },
-    exit: (dir: number) => ({
-      zIndex: 0,
-      x: dir < 0 ? 1000 : -1000,
-      opacity: 0,
-    }),
+    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
+    center: { zIndex: 1, x: 0, opacity: 1 },
+    exit: (dir: number) => ({ zIndex: 0, x: dir < 0 ? 300 : -300, opacity: 0 }),
   }
 
-  const paginate = (newDirection: number) => {
+  const paginate = useCallback((newDirection: number) => {
     setDirection(newDirection)
     setCurrent((prev) => (prev + newDirection + members.length) % members.length)
-  }
+    setKey((k) => k + 1)
+  }, [members.length])
+
+  const member = members[current]
 
   return (
-    <div className="relative mx-auto max-w-6xl overflow-hidden">
-      {/* Main Slider */}
-      <div className="relative min-h-[600px] md:min-h-[700px] overflow-hidden rounded-3xl bg-gradient-to-br from-muted to-background ring-1 ring-border">
-        <AnimatePresence initial={false} custom={direction}>
+    <div className="relative mx-auto max-w-5xl">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-card via-background to-card ring-1 ring-border shadow-lg shadow-foreground/5">
+        <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={current}
             custom={direction}
@@ -54,86 +85,89 @@ export function TeamSlider({ members }: TeamSliderProps) {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{
-              x: { type: 'spring', stiffness: 300, damping: 30 },
-              opacity: { duration: 0.5 },
-            }}
-            className="absolute inset-0"
+            transition={{ x: { type: 'spring', stiffness: 300, damping: 30 }, opacity: { duration: 0.25 } }}
+            className="relative"
           >
-            <div className="flex h-full flex-col md:flex-row items-center justify-between px-6 md:px-12 py-8 md:py-12">
-              {/* Photo Section - Left Side */}
-              <div className="flex w-full md:w-1/2 items-center justify-center md:justify-start">
-                <img
-                  src={members[current].photo}
-                  alt={members[current].name}
-                  className="h-auto max-h-[400px] md:max-h-[500px] w-auto object-contain"
-                />
+            <div className="flex flex-col md:flex-row min-h-[320px] md:min-h-[340px]">
+              {/* Photo - Left */}
+              <div className="flex w-full md:w-[40%] bg-primary">
+                <div className={`relative w-full overflow-hidden ${member.photoAspect || 'aspect-[3/4]'} h-full`}>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary/80" />
+                  <img
+                    src={imgPath(member.photo)}
+                    alt={member.name}
+                    className="relative z-10 h-full w-full object-cover"
+                    style={{ objectPosition: 'center top' }}
+                  />
+                </div>
               </div>
 
-              {/* Info Section - Right Side */}
-              <div className="mt-8 w-full md:mt-0 md:w-1/2 md:pl-8">
-                <p className="font-heading text-sm font-bold uppercase tracking-[0.25em] text-muted-foreground">
-                  {members[current].role}
-                </p>
-                <h2 className="mt-4 font-heading text-4xl md:text-6xl font-black uppercase leading-tight text-primary">
-                  {members[current].name}
-                </h2>
-                <p className="mt-6 font-heading text-xl md:text-2xl font-semibold text-primary">
-                  {members[current].tagline}
-                </p>
-                <p className="mt-8 max-w-lg leading-relaxed text-muted-foreground text-lg">
-                  {members[current].description}
-                </p>
+              {/* Info - Right */}
+              <div className="flex w-full md:w-[60%] flex-col justify-center px-5 py-6 md:px-8">
+                <div className="relative">
+                  <Quote className="h-7 w-7 text-primary/15 absolute -top-1 -left-2" aria-hidden="true" />
+                  <div className="pl-5">
+                    <p className="font-heading text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+                      {member.role}
+                    </p>
+                    <h2 className="mt-1 font-heading text-xl md:text-2xl lg:text-3xl font-black uppercase leading-[1.1] tracking-tight text-foreground">
+                      {member.name}
+                    </h2>
+                    <p className="mt-1 font-heading text-sm md:text-base font-semibold text-primary/80">
+                      {member.tagline}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Typing animation */}
+                <div className="mt-3 border-l-2 border-primary/30 pl-4 min-h-[50px]">
+                  <p className="leading-relaxed text-foreground/90 text-sm md:text-base" key={`desc-${key}`}>
+                    <TypeWriter text={member.description} speed={15} />
+                  </p>
+                </div>
+
+                {/* Nav controls */}
+                <div className="mt-4 flex items-center gap-3">
+                  <button
+                    onClick={() => paginate(-1)}
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow transition-all hover:bg-foreground hover:text-background active:scale-90"
+                    aria-label="Previous"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <span className="text-xs font-semibold text-foreground tabular-nums tracking-wider">
+                    {String(current + 1).padStart(2, '0')} / {String(members.length).padStart(2, '0')}
+                  </span>
+                  <button
+                    onClick={() => paginate(1)}
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow transition-all hover:bg-foreground hover:text-background active:scale-90"
+                    aria-label="Next"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </motion.div>
         </AnimatePresence>
-
-        {/* Navigation Buttons */}
-        <button
-          onClick={() => paginate(-1)}
-          className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 backdrop-blur p-3 transition-all hover:bg-white hover:shadow-lg md:left-8"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="h-6 w-6 text-foreground" />
-        </button>
-        <button
-          onClick={() => paginate(1)}
-          className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 backdrop-blur p-3 transition-all hover:bg-white hover:shadow-lg md:right-8"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="h-6 w-6 text-foreground" />
-        </button>
-
-        {/* Slide Counter */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-white/80 backdrop-blur px-4 py-2 text-sm font-medium text-foreground md:bottom-8">
-          {current + 1} / {members.length}
-        </div>
       </div>
 
-      {/* Dot Navigation */}
-      <div className="mt-10 flex justify-center gap-3">
+      {/* Dots */}
+      <div className="mt-4 flex justify-center gap-2">
         {members.map((_, index) => (
           <button
             key={index}
-            onClick={() => {
-              setDirection(index > current ? 1 : -1)
-              setCurrent(index)
-            }}
-            className={`transition-all duration-300 ${
-              index === current
-                ? 'h-3 w-8 rounded-full'
-                : 'h-2.5 w-2.5 rounded-full hover:opacity-70'
-            }`}
+            onClick={() => { setDirection(index > current ? 1 : -1); setCurrent(index); setKey((k) => k + 1) }}
+            className="transition-all duration-500 ease-out rounded-full"
             style={{
-              backgroundColor:
-                index === current ? 'var(--primary)' : 'color-mix(in oklab, var(--primary) 30%, transparent)',
+              width: index === current ? '1.5rem' : '0.5rem',
+              height: '0.5rem',
+              backgroundColor: index === current ? 'var(--primary)' : 'color-mix(in oklab, var(--primary) 25%, transparent)',
             }}
-            aria-label={`Go to slide ${index + 1}`}
+            aria-label={`View ${members[index].name}`}
           />
         ))}
       </div>
     </div>
   )
 }
-

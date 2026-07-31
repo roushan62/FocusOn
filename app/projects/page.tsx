@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <div className="pt-32 md:pt-40">
-      <section className="mx-auto max-w-7xl px-4 pb-24 md:px-8 md:pb-36">
+    <div className="pt-24 md:pt-28">
+      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-8 md:pb-20">
         <Reveal>
           <p className="font-heading text-xs font-bold uppercase tracking-[0.35em] text-primary">
             Portfolio
@@ -24,13 +24,11 @@ export default function ProjectsPage() {
         />
         <Reveal delay={0.2}>
           <p className="mt-8 max-w-xl leading-relaxed text-muted-foreground text-pretty">
-            Browse our curated portfolio spanning hospitality, offices, and
-            retail. Each project reflects our signature design and styling
-            approach.
+            Browse our curated portfolio spanning corporate offices, NBFCs, industrial spaces, and educational institutions across India. Each project reflects our signature design and styling approach.
           </p>
         </Reveal>
 
-        <div className="mt-16">
+        <div className="mt-12">
           <ProjectsGallery />
         </div>
       </section>
